@@ -2,8 +2,11 @@
 
 ## Tech Stack
 - **Backend:** Python 3.12, Django 6.0, Django REST Framework
-- **Frontend:** React + Vite
+- **Frontend:** React + Vite + Recharts
 - **Database:** MariaDB 11.4 (MySQL-compatible)
+
+---
+
 
 ---
 
@@ -74,12 +77,27 @@ cd frontend
 npm install
 npm run dev
 ```
-Open **http://localhost:5173**
+
 
 ### 9. Run Load Test
 ```bash
 python load_test.py
 ```
+
+---
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/purchase/ | Flash sale purchase with concurrency lock |
+| GET | /api/analytics/ | Daily revenue + top 5 products |
+| GET | /api/products/ | List available products |
+| GET | /api/products/all/ | List all products including out of stock |
+| POST | /api/products/add/ | Add new product |
+| DELETE | /api/products/{id}/delete/ | Delete a product |
+| POST | /api/products/{id}/restock/ | Add stock to existing product |
+| POST | /api/checkout/ | Process cart with transactional integrity |
 
 ---
 
@@ -102,7 +120,7 @@ out-of-stock. Stock never went negative. ✅
 ### Challenge 3 — POS Transactional Integrity
 Used `transaction.atomic()` to wrap the entire checkout process. If any single
 item fails (out of stock, database error), Django automatically rolls back ALL
-saves made in that block — no partial orders ever reach the database.
+saves — no partial orders ever reach the database.
 
 ---
 
