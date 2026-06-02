@@ -110,3 +110,56 @@ def checkout(request):
 
     except ValueError as e:
         return Response({'error': str(e)}, status=400)
+    
+    # ─── Products: list all (including out of stock) ───
+@api_view(['GET'])
+def product_list_all(request):
+    products = Product.objects.all()
+    data = [
+        {
+            'id'   : p.id,
+            'name' : p.name,
+            'price': str(p.price),
+            'stock': p.stock
+        }
+        for p in products
+    ]
+    return Response(data)
+
+# ─── Products: add new ───
+@api_view(['POST'])
+def product_add(request):
+    name  = request.data.get('name')
+    price = request.data.get('price')
+    stock = request.data.get('stock')
+
+    if not name or not price or stock is None:
+        return Response({'error': 'All fields required'}, status=400)
+
+    product = Product.objects.create(
+        name=name, price=price, stock=stock
+    )
+    return Response({'success': True, 'id': product.id})
+
+# ─── Products: delete ───
+@api_view(['DELETE'])
+def product_delete(request, pk):
+    try:
+        product = Product.objects.get(id=pk)
+        product.delete()
+        return Response({'success': True})
+    except Product.DoesNotExist:
+        return Response({'error': 'Not found'}, status=404)
+
+# ─── Products: restock ───
+@api_view(['POST'])
+def product_restock(request, pk):
+    amount = request.data.get('amount', 0)
+    try:
+        with transaction.atomic():
+            product = Product.objects.select_for_update().get(id=pk)
+            product.stock += int(amount)
+            product.save()
+        return Response({'success': True, 'new_stock': product.stock})
+    except Product.DoesNotExist:
+        return Response({'error': 'Not found'}, status=404)
