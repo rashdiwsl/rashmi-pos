@@ -1,5 +1,5 @@
 # Rashmi POS
-### Technical Assessment — Micronsoft Solutions (Pvt) Ltd
+### Technical Assessment 
 **Position:** Software Engineering Intern  
 **GitHub:** https://github.com/rashdiwsl/rashmi-pos
 
@@ -27,7 +27,7 @@
 <!-- ADD SCREENSHOT: Add some products to cart and screenshot -->
 ![POS Cart](screenshots/pos_cart.png)
 
-### Receipt Component (80mm Thermal)
+### Receipt Component 
 <!-- ADD SCREENSHOT: Screenshot of the receipt modal after checkout -->
 ![Receipt](screenshots/receipt.png)
 
