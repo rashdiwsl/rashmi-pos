@@ -1,6 +1,5 @@
 # Rashmi POS
-### Technical Assessment 
-**Position:** Software Engineering Intern  
+
 **GitHub:** https://github.com/rashdiwsl/rashmi-pos
 
 ---
